@@ -16,7 +16,7 @@
   home = {
     username = "gettbit";
     homeDirectory = "/home/gettbit";
-    stateVersion = "25.11";
+    stateVersion = "26.05";
 
   };
 
