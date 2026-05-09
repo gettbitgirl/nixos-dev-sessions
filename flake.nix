@@ -1,5 +1,5 @@
 {
-  description = "fufexan's NixOS and Home-Manager flake";
+  description = "Jackits's NixOS and Home-Manager flake";
 
   outputs =
     inputs:
