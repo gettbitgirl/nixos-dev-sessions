@@ -51,6 +51,22 @@
         "type": "github"
       }
     },
+    "base16-schemes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777806186,
+        "narHash": "sha256-PDF0/wObw4nIsSBeXVYLsloXOiphXCgIdsrNcVXguKs=",
+        "owner": "tinted-theming",
+        "repo": "schemes",
+        "rev": "0c94645546f4f3ddac77a1a5fce54eb95bf50795",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinted-theming",
+        "repo": "schemes",
+        "type": "github"
+      }
+    },
     "base16-vim": {
       "flake": false,
       "locked": {
@@ -273,6 +289,7 @@
     },
     "root": {
       "inputs": {
+        "base16-schemes": "base16-schemes",
         "flake-parts": "flake-parts",
         "hm": "hm",
         "kwin-effects-better-blur-dx": "kwin-effects-better-blur-dx",
