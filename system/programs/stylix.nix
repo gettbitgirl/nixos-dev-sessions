@@ -6,6 +6,7 @@
 
   stylix = {
     enable = true;
-    base16Scheme = (../../color-scheme.yaml);
+    base16Scheme = "${inputs.base16-schemes}/base16/rose-pine.yaml";
+    
   };
 }

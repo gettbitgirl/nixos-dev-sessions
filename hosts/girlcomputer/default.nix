@@ -3,6 +3,7 @@
   pkgs,
   self,
   lib,
+  config,
   ...
 }:
 {
@@ -14,7 +15,6 @@
 
 
   networking.hostName = "girlcomputer";
-
 
   fileSystems = {
     "/".options = [ "compress=zstd" ];
