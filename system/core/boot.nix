@@ -5,7 +5,7 @@
   ...
 }:
 {
- imports = [ inputs.nixos-plymouth.nixosModules.default ];
+ 
 
    boot = {
 

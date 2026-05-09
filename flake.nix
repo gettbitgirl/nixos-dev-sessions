@@ -9,7 +9,7 @@
       imports = [
         ./hosts
         #./lib
-        #./modules
+        ./modules
         #./pkgs
         #./fmt-hooks.nix
         #inputs.nixos-hardware.nixosModules.asus-fa506nc
@@ -46,6 +46,10 @@
     nixos-plymouth.url = "github:BeatLink/nixos-plymouth";
     kwin-effects-better-blur-dx = {
       url = "github:xarblu/kwin-effects-better-blur-dx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stylix = {
+      url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
