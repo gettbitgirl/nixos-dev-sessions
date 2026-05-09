@@ -15,7 +15,7 @@
 
 
   networking.hostName = "girlcomputer";
-
+  
   fileSystems = {
     "/".options = [ "compress=zstd" ];
     "/home".options = [ "compress=zstd" ];

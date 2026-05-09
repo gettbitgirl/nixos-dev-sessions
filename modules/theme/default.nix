@@ -12,7 +12,7 @@
       '';
       type = lib.types.str;
       example = lib.literalExample "catppuccin-latte";
-      default = "dark";
+      default = "sakura";
     };
 
     wallpaper = lib.mkOption {

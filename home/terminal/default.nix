@@ -6,6 +6,7 @@ let
 in
 {
   imports = [
+    ./emulators/alacritty.nix
     ./programs
     #./shell/starship.nix
     ./shell/zsh.nix

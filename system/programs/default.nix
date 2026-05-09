@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ self, config, pkgs, ... }:
 {
   imports = [
     ./fonts.nix
@@ -6,8 +6,8 @@
     # ./qt.nix
     ./stylix.nix
     ./school.nix
+    self.modules.theme
   ];
-
   programs = {
 
     kdeconnect.enable = true;
