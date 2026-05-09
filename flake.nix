@@ -14,6 +14,7 @@
         #./fmt-hooks.nix
         #inputs.nixos-hardware.nixosModules.asus-fa506nc
         #inputs.nixos-plymouth.nixosModules.default
+        
       ];
 
 
@@ -33,14 +34,15 @@
     # rest of inputs, alphabetical order
 
 
-    hm = {
+    home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
+      url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixos-plymouth.url = "github:BeatLink/nixos-plymouth";

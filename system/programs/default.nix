@@ -4,7 +4,7 @@
     ./fonts.nix
     ./home-manager.nix
     # ./qt.nix
-    #./xdg.nix
+    ./stylix.nix
     ./school.nix
   ];
 

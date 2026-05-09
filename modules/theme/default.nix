@@ -1,5 +1,6 @@
 { lib, ... }:
 {
+  
   options.theme = {
     name = lib.mkOption {
       description = ''

@@ -1,11 +1,12 @@
 {
   self,
   inputs,
+  pkgs,
   ...
 }:
 {
   imports = [
-    ./theme
+    #./theme
     ./terminal
     #inputs.nix-index-db.homeModules.nix-index
     #inputs.tailray.homeManagerModules.default
