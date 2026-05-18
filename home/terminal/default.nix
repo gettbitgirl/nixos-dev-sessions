@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   data = config.xdg.dataHome;
   conf = config.xdg.configHome;
@@ -12,6 +12,9 @@ in
     ./shell/zsh.nix
     #./shell/zoxide.nix
   ];
+
+  home.packages = [ pkgs.nixfmt pkgs.nixd];
+
 
   # add environment variables
   home.sessionVariables = {

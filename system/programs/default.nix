@@ -9,7 +9,7 @@
     self.modules.theme
   ];
   programs = {
-
+    
     kdeconnect.enable = true;
 
   };

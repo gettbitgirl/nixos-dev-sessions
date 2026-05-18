@@ -20,14 +20,16 @@
     variant = "";
   };
   environment.systemPackages = with pkgs; [
+  python315
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   kdePackages.kate
   kdePackages.yakuake
   kdePackages.discover
+  kdePackages.oxygen
 
   (fluent-icon-theme.override {
-    colorVariants = [ "pink" ];
+    colorVariants = [ "red" ];
   })
   darkly-qt5
   darkly

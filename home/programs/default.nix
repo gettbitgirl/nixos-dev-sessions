@@ -11,7 +11,7 @@
   ];
 
   home.packages = with pkgs; [
-
+    ryubing
     #halloy
     #signal-desktop
     # telegram-desktop
