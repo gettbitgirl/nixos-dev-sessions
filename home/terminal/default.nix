@@ -6,14 +6,14 @@ let
 in
 {
   imports = [
-    ./emulators/alacritty.nix
+    ./emulators/kitty.nix
     ./programs
     #./shell/starship.nix
     ./shell/zsh.nix
     #./shell/zoxide.nix
   ];
 
-  home.packages = [ pkgs.nixfmt pkgs.nixd];
+  home.packages = [ pkgs.alejandra pkgs.nixd];
 
 
   # add environment variables

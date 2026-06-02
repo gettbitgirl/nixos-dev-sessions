@@ -21,7 +21,7 @@
     in
     {
 
-
+      nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
       settings = {
         auto-optimise-store = true;
         #builders-use-substitutes = true;
