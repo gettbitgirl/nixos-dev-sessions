@@ -4,5 +4,6 @@
     libreoffice
     obsidian
     xournalpp
+    thunderbird
   ];
 }

@@ -1,10 +1,9 @@
 {
   description = "Jackits's NixOS and Home-Manager flake";
 
-  outputs =
-    inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
 
       imports = [
         ./hosts
@@ -14,15 +13,19 @@
         #./fmt-hooks.nix
         #inputs.nixos-hardware.nixosModules.asus-fa506nc
         #inputs.nixos-plymouth.nixosModules.default
-        
       ];
-
-
     };
 
   inputs = {
+    antigravity-nix = {
+      url = "github:jacopone/antigravity-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # global, so they can be `.follow`ed
     systems.url = "github:nix-systems/default-linux";
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+    };
     nix-userstyles = {
       url = "github:adam01110/nix-userstyles";
       inputs = {
@@ -38,7 +41,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # rest of inputs, alphabetical order
-
 
     home-manager = {
       url = "github:nix-community/home-manager";

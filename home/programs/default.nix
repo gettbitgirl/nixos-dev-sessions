@@ -3,6 +3,7 @@
   imports = [
     ./browsers/zen.nix
     ./editors/vscodium.nix
+    ./editors/antigravity.nix
     #./media
     #./gtk.nix
     ./office
@@ -11,6 +12,7 @@
   ];
 
   home.packages = with pkgs; [
+    nix-index
     ryubing
     #halloy
     #signal-desktop

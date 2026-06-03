@@ -8,6 +8,7 @@
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       jnoortheen.nix-ide
+      ms-vscode.cmake-tools
     ];
     userSettings = {
       "nix.serverPath" = "nixd";

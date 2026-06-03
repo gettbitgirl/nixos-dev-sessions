@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 let
   data = config.xdg.dataHome;
   conf = config.xdg.configHome;
@@ -13,7 +13,11 @@ in
     #./shell/zoxide.nix
   ];
 
-  home.packages = [ pkgs.alejandra pkgs.nixd];
+  home.packages = with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [ 
+    pkgs.alejandra 
+    pkgs.nixd 
+    pi
+  ];
 
 
   # add environment variables
