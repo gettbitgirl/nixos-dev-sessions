@@ -23,7 +23,13 @@
   inputs = {
     # global, so they can be `.follow`ed
     systems.url = "github:nix-systems/default-linux";
-
+    nix-userstyles = {
+      url = "github:adam01110/nix-userstyles";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
