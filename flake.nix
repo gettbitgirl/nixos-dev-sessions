@@ -17,6 +17,8 @@
     };
 
   inputs = {
+    yamis.url = "github:gettbitgirl/Yet-Another-Monochrome-Icon-Set";
+    nix-waywallen.url = "github:gettbitgirl/nix-waywallen";
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";

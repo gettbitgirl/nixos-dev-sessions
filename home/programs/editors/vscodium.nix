@@ -10,7 +10,7 @@
       jnoortheen.nix-ide
       ms-vscode.cmake-tools
     ];
-    userSettings = {
+    profiles.default.userSettings = {
       "nix.serverPath" = "nixd";
       "nix.enableLanguageServer" = true;
       "nix.serverSettings" = {
@@ -23,7 +23,7 @@
                 "expr" = "(builtins.getFlake \"~/.dotfiles\").nixosConfigurations.girlcomputer.options";
               };
               "home_manager" = {
-                "expr" = "(builtins.getFlake \"~/.dotfiles\").homeConfigurations.gettbit.options";
+                "expr" = "(builtins.getFlake \"~/.dotfiles\").homeConfigurations.dev.options";
               };
            };
         };
@@ -31,6 +31,7 @@
       "files.autoSave" = "onFocusChange";
       "telemetry.telemetryLevel" = "off";
       "update.mode" = "none"; # Let Nix handle updates
+      "git.enableSmartCommit" = true;
     };
   };
   #stylix.targets.vscode.profileNames = ["default"];

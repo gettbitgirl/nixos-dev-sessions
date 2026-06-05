@@ -26,7 +26,7 @@
           #"${mod}/core/lanzaboote.nix"
 
           "${mod}/programs/gamemode.nix"
-          "${mod}/programs/plasma"
+          "${mod}/programs/gnome"
           "${mod}/programs/games.nix"
 
           #"${mod}/network/syncthing.nix"
@@ -37,7 +37,7 @@
 
           {
             home-manager = {
-              users.gettbit.imports = homeImports."gettbit@girlcomputer";
+              users.dev.imports = homeImports."dev@girlcomputer";
               extraSpecialArgs = specialArgs;
               backupFileExtension = ".hm-backup";
             };

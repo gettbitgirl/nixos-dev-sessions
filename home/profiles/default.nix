@@ -1,5 +1,5 @@
 {
-  "gettbit@girlcomputer" = [
+  "dev@girlcomputer" = [
     ../.
     ./girlcomputer
   ];

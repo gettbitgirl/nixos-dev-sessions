@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   #environment.systemPackages = with pkgs; [ virt-manager ];
-  #users.users.gettbit.extraGroups = [
+  #users.users.dev.extraGroups = [
   #  "docker"
   #];
 

@@ -1,5 +1,8 @@
-{ pkgs, inputs, ... }:
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./browsers/zen.nix
     ./editors/vscodium.nix
@@ -13,7 +16,9 @@
 
   home.packages = with pkgs; [
     nix-index
+    youtube-music
     ryubing
+    #plasma-panel-colorizer
     #halloy
     #signal-desktop
     # telegram-desktop

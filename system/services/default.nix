@@ -6,9 +6,9 @@
   
   networking.firewall.allowedTCPPorts = [ 8384 ];
   services.syncthing = {
-    dataDir = "/home/gettbit";
+    dataDir = "/home/dev";
     enable = true;
-    user = "gettbit";
+    user = "dev";
     openDefaultPorts = true;
   };
 }
