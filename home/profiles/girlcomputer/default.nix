@@ -7,7 +7,6 @@
     # programs
     ../../programs
     ../../programs/games
-    #../../programs/wayland
 
     # services
     #../../services/quickshell
@@ -24,8 +23,9 @@
     #../../services/system/theme.nix
     #../../services/system/udiskie.nix
 
-    # wayland-specific
-    #../../services/wayland/gammastep.nix
+    # wayland-specific (niri, waybar, mako, swaylock)
+    ../../programs/wayland
+
     #../../services/wayland/hyprpaper.nix
     #../../services/wayland/hypridle.nix
 
