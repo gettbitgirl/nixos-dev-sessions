@@ -22,5 +22,9 @@
     gnomeExtensions.appindicator
     inkscape
     inputs.yamis.packages.${pkgs.system}.default
+
+    # Wayland wallpaper manager and GNOME extension
+    waywallen
+    waywallen-gnome
   ];
 }

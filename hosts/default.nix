@@ -6,16 +6,13 @@
 {
   flake.nixosConfigurations =
     let
-      # shorten paths
       inherit (inputs.nixpkgs.lib) nixosSystem;
 
       homeImports = import "${self}/home/profiles";
 
       mod = "${self}/system";
-      # get the basic config to build on top of
       inherit (import mod) laptop;
 
-      # get these into the module system
       specialArgs = { inherit inputs self; };
     in
     {
@@ -43,18 +40,11 @@
             };
           }
 
-          # ── Niri specialization ─────────────────────────────────────────
-          # Boot into this via the bootloader entry labelled "niri".
-          # It inherits everything from the base config above, then overrides
-          # the desktop environment.
+          # ── Niri specialization ──────────────────────────────────────────
+          # Select at boot via the "niri" bootloader entry.
+          # The niri module itself disables GNOME/GDM with mkForce.
           {
             specialisation.niri.configuration = {
-              # Switch off GNOME (re-declared here so the specialisation
-              # cleanly overrides rather than merging with the base).
-              services.desktopManager.gnome.enable = inputs.nixpkgs.lib.mkForce false;
-              services.displayManager.gdm.enable = inputs.nixpkgs.lib.mkForce false;
-
-              # Pull in the niri system module
               imports = [ "${mod}/programs/niri" ];
             };
           }

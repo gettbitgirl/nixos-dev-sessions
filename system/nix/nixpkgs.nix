@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, inputs, ... }:
 {
   nixpkgs = {
     config.allowUnfree = true;
@@ -7,7 +7,7 @@
     ];
 
     overlays = [
-
+      inputs.nix-waywallen.overlays.default
     ];
   };
 }

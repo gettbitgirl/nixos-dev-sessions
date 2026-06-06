@@ -2,11 +2,12 @@
   inputs,
   config,
   pkgs,
+  lib,
   ...
 }: {
-  # Disable GNOME stack (it may be enabled by the base config)
-  services.desktopManager.gnome.enable = false;
-  services.displayManager.gdm.enable = false;
+  # Disable GNOME stack (overrides the base config)
+  services.desktopManager.gnome.enable = lib.mkForce false;
+  services.displayManager.gdm.enable = lib.mkForce false;
 
   # ── Compositor ────────────────────────────────────────────────────────────
   programs.niri.enable = true;
@@ -15,16 +16,14 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-    # Theme ships with sddm-chili or use catppuccin; kept minimal here
-    theme = "breeze";
+    # No custom theme — use SDDM's built-in default (works without extra packages)
   };
 
   # ── XDG Portals ───────────────────────────────────────────────────────────
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-gnome # for GTK file pickers
+      xdg-desktop-portal-gtk  # GTK file pickers, screenshots, etc.
     ];
     config.common.default = "gtk";
   };
@@ -32,19 +31,12 @@
   # ── Security / Auth ───────────────────────────────────────────────────────
   security.polkit.enable = true;
 
-  # PAM entry so swaylock can auth
+  # PAM entry so swaylock can authenticate
   security.pam.services.swaylock = {};
 
   # ── Session Services ──────────────────────────────────────────────────────
   programs.dconf.enable = true;
   services.gnome.gnome-keyring.enable = true;
-
-  # ── Keyboard layout (reuse existing xkb settings without xserver) ─────────
-  services.xserver.enable = false;
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
 
   # ── System Packages ───────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
@@ -55,8 +47,8 @@
     waywallen
     swaybg
 
-    # launcher
-    rofi-wayland
+    # launcher (rofi-wayland merged into rofi in nixpkgs-unstable)
+    rofi
 
     # notifications
     mako
@@ -74,24 +66,24 @@
     brightnessctl
     playerctl
 
-    # audio
+    # audio mixer GUI
     pavucontrol
 
     # file manager
     nautilus
 
-    # polkit agent (GTK)
+    # polkit authentication agent (GTK)
     polkit_gnome
 
-    # Wayland utilities
-    wlr-randr
-    wl-mirror
+    # screenshot tools
     grim
     slurp
-    swappy # screenshot annotation
+    swappy
 
-    # dbus / portals deps
-    dconf
+    # Wayland output management
+    wlr-randr
+
+    # dbus / portals / GTK settings
     gsettings-desktop-schemas
     glib
   ];
