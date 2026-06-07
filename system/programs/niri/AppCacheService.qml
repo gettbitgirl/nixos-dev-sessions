@@ -127,13 +127,16 @@ QtObject {
         return 'set -e\n' +
             'HOME_DIR=' + home + '\n' +
             'STEAM_DIR=' + steamD + '\n' +
+            'xdg_dirs_str="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"\n' +
+            'for extra in "/run/current-system/sw/share" "$HOME_DIR/.nix-profile/share" "/etc/profiles/per-user/${HOME_DIR##*/}/share" "/nix/var/nix/profiles/default/share"; do\n' +
+            '  case "$xdg_dirs_str" in *"$extra"*);; *) [ -d "$extra" ] && xdg_dirs_str="$xdg_dirs_str:$extra";; esac\n' +
+            'done\n' +
 
             'find_icon() {\n' +
             '  local name="$1"\n' +
             '  [ -z "$name" ] && return\n' +
             '  [ "${name:0:1}" = "/" ] && [ -f "$name" ] && echo "$name" && return\n' +
             '  local dirs=""\n' +
-            '  local xdg_dirs_str="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"\n' +
             '  local old_ifs="$IFS"\n' +
             '  IFS=":"\n' +
             '  for d in $xdg_dirs_str; do\n' +
@@ -195,7 +198,6 @@ QtObject {
             '}\n' +
 
             'seen_names=""\n' +
-            'local xdg_dirs_str="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"\n' +
             'local old_ifs="$IFS"\n' +
             'IFS=":"\n' +
             'local app_dirs=""\n' +

@@ -31,16 +31,16 @@
     };
     nirimod.url = "github:srinivasr/nirimod";
     yamis.url = "github:gettbitgirl/Yet-Another-Monochrome-Icon-Set";
-    nix-waywallen.url = "github:gettbitgirl/nix-waywallen";
+    #nix-waywallen.url = "github:gettbitgirl/nix-waywallen";
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # global, so they can be `.follow`ed
     systems.url = "github:nix-systems/default-linux";
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-    };
+    #llm-agents = {
+    #  url = "github:numtide/llm-agents.nix";
+    #};
     nix-userstyles = {
       url = "github:adam01110/nix-userstyles";
       inputs = {
