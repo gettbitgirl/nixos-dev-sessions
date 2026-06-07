@@ -70,42 +70,6 @@ in {
   # ── System Packages ───────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
     xwayland-satellite
-    # icon set (kept from GNOME config)
-    inputs.yamis.packages.${pkgs.system}.default
-
-    # wallpaper
-    waywallen
-    waywallen-layer-shell
-    swaybg
-
-    # update script
-    nixos-rebuild-specialisation
-    nixos-rebuild-polkit
-
-    # launcher (rofi-wayland merged into rofi in nixpkgs-unstable)
-    hamr
-
-    # notifications
-    mako
-    libnotify
-
-    # screen lock / idle
-    swaylock
-    swayidle
-
-    # clipboard
-    wl-clipboard
-    cliphist
-
-    # hardware controls
-    brightnessctl
-    playerctl
-
-    # audio mixer GUI
-    pavucontrol
-
-    # file manager
-    nautilus
 
     # polkit authentication agent (GTK)
     polkit_gnome
