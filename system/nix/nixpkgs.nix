@@ -11,9 +11,7 @@
 
     overlays = [
       inputs.nix-waywallen.overlays.default
-      (final: prev: {
-        hamr = inputs.hamr.packages.${prev.system}.default;
-      })
+      inputs.nirimod.overlays.default
     ];
   };
 }

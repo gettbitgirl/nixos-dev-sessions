@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{...}: {
   programs.waybar = {
     enable = true;
     systemd.enable = false; # we launch it from niri spawn-at-startup
@@ -53,7 +53,7 @@
           format = "{icon} {capacity}%";
           format-charging = " {capacity}%";
           format-plugged = " {capacity}%";
-          format-icons = [ "" "" "" "" "" ];
+          format-icons = ["" "" "" "" ""];
         };
 
         network = {
@@ -68,7 +68,7 @@
           format = "{icon} {volume}%";
           format-muted = " muted";
           format-icons = {
-            default = [ "" "" "" ];
+            default = ["" "" ""];
           };
           on-click = "pavucontrol";
           scroll-step = 5;

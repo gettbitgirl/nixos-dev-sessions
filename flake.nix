@@ -17,7 +17,19 @@
     };
 
   inputs = {
-    hamr.url = "github:stewart86/hamr";
+    skwd-wall = {
+      url = "github:liixini/skwd-wall";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.quickshell.inputs.nixpkgs.follows = "nixpkgs";
+      inputs.skwd-daemon.inputs.nixpkgs.follows = "nixpkgs";
+    };
+    skwd = {
+      url = "github:liixini/skwd";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.quickshell.inputs.nixpkgs.follows = "nixpkgs";
+      inputs.skwd-daemon.inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nirimod.url = "github:srinivasr/nirimod";
     yamis.url = "github:gettbitgirl/Yet-Another-Monochrome-Icon-Set";
     nix-waywallen.url = "github:gettbitgirl/nix-waywallen";
     antigravity-nix = {

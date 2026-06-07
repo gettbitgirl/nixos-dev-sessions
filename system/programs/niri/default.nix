@@ -1,51 +1,40 @@
 {
   inputs,
   pkgs,
-  lib,
   ...
 }: let
-  nixos-rebuild-specialisation = pkgs.writeShellScriptBin "nixos-rebuild-specialisation" ''
-    set -euo pipefail
-    cd /home/dev/Dev/nixos-dev-sessions
-    echo "Rebuilding NixOS in specialization: niri"
-    nixos-rebuild switch --flake .#girlcomputer --specialisation niri
-    echo "Finished! Press Enter to close."
-    read -r
-  '';
-  nixos-rebuild-polkit = pkgs.writeTextFile {
-    name = "nixos-rebuild-polkit";
-    destination = "/share/polkit-1/actions/org.gettbitgirl.nixosrebuild.policy";
-    text = ''
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE policyconfig PUBLIC
-        "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
-        "http://freedesktop.org">
-      <policyconfig>
-        <action id="com.gettbitgirl.nixos-rebuild.run">
-          <description>Rebuild NixOS configuration</description>
-          <message>Authentication is required to rebuild NixOS configuration</message>
-          <defaults>
-            <allow_any>auth_admin</allow_any>
-            <allow_inactive>auth_admin</allow_inactive>
-            <allow_active>auth_admin</allow_active>
-          </defaults>
-          <annotate key="org.freedesktop.policykit.exec.path">${nixos-rebuild-specialisation}/bin/nixos-rebuild-specialisation</annotate>
-        </action>
-      </policyconfig>
-    '';
-  };
+  skwd-patched = inputs.skwd.packages.${pkgs.system}.default.overrideAttrs (oldAttrs: {
+    preFixup =
+      (oldAttrs.preFixup or "")
+      + ''
+        mkdir -p $out/share/skwd
+        cp -a ${inputs.skwd.inputs.skwd-daemon.packages.${pkgs.system}.default}/share/skwd/skwd-daemon $out/share/skwd/
+        cp ${./AppCacheService.qml} $out/share/skwd/skwd-launch/qml/services/AppCacheService.qml
+      '';
+  });
 in {
-  # Keep GNOME stack enabled so GDM can launch its greeter session
-  services.desktopManager.gnome.enable = lib.mkForce true;
-  services.displayManager.gdm.enable = lib.mkForce true;
-  services.displayManager.defaultSession = "niri";
+  imports = [
+    inputs.skwd-wall.nixosModules.default
+  ];
+  #inputs.skwd-wall.packages.${pkgs.system}.default
+  programs.skwd-wall.enable = true;
+
+  environment.sessionVariables = {
+    SKWD_INSTALL = "${skwd-patched}/share/skwd";
+  };
 
   # ── Compositor ────────────────────────────────────────────────────────────
   programs.niri.enable = true;
 
   # ── Display Manager: SDDM ─────────────────────────────────────────────────
   services.displayManager.sddm = {
-    enable = false;
+    enable = true;
+    # Enable the Wayland backend
+    wayland.enable = true;
+
+    # Optional: auto-login (uncomment and set user to auto-login on boot)
+    # autoLogin.enable = true;
+    # autoLogin.user = "dev";
   };
 
   # ── XDG Portals ───────────────────────────────────────────────────────────
@@ -69,7 +58,11 @@ in {
 
   # ── System Packages ───────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
+    skwd-patched
     xwayland-satellite
+    cava
+
+    #shell
 
     # polkit authentication agent (GTK)
     polkit_gnome

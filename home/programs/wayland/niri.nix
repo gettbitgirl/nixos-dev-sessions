@@ -1,23 +1,23 @@
 {
   pkgs,
-  lib,
+  inputs,
   ...
 }: {
   home.packages = with pkgs; [
     # icon set (kept from GNOME config)
     inputs.yamis.packages.${pkgs.system}.default
 
+
+
     # wallpaper
-    waywallen
-    waywallen-layer-shell
+
     swaybg
 
-    # update script
-    nixos-rebuild-specialisation
-    nixos-rebuild-polkit
-
     # launcher (rofi-wayland merged into rofi in nixpkgs-unstable)
-    hamr
+    rofi
+
+    # config
+    nirimod
 
     # notifications
     mako
