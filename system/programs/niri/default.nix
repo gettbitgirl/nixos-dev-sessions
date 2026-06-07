@@ -1,29 +1,58 @@
 {
   inputs,
-  config,
   pkgs,
   lib,
   ...
-}: {
-  # Disable GNOME stack (overrides the base config)
-  services.desktopManager.gnome.enable = lib.mkForce false;
-  services.displayManager.gdm.enable = lib.mkForce false;
+}: let
+  nixos-rebuild-specialisation = pkgs.writeShellScriptBin "nixos-rebuild-specialisation" ''
+    set -euo pipefail
+    cd /home/dev/Dev/nixos-dev-sessions
+    echo "Rebuilding NixOS in specialization: niri"
+    nixos-rebuild switch --flake .#girlcomputer --specialisation niri
+    echo "Finished! Press Enter to close."
+    read -r
+  '';
+  nixos-rebuild-polkit = pkgs.writeTextFile {
+    name = "nixos-rebuild-polkit";
+    destination = "/share/polkit-1/actions/org.gettbitgirl.nixosrebuild.policy";
+    text = ''
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE policyconfig PUBLIC
+        "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+        "http://freedesktop.org">
+      <policyconfig>
+        <action id="com.gettbitgirl.nixos-rebuild.run">
+          <description>Rebuild NixOS configuration</description>
+          <message>Authentication is required to rebuild NixOS configuration</message>
+          <defaults>
+            <allow_any>auth_admin</allow_any>
+            <allow_inactive>auth_admin</allow_inactive>
+            <allow_active>auth_admin</allow_active>
+          </defaults>
+          <annotate key="org.freedesktop.policykit.exec.path">${nixos-rebuild-specialisation}/bin/nixos-rebuild-specialisation</annotate>
+        </action>
+      </policyconfig>
+    '';
+  };
+in {
+  # Keep GNOME stack enabled so GDM can launch its greeter session
+  services.desktopManager.gnome.enable = lib.mkForce true;
+  services.displayManager.gdm.enable = lib.mkForce true;
+  services.displayManager.defaultSession = "niri";
 
   # ── Compositor ────────────────────────────────────────────────────────────
   programs.niri.enable = true;
 
   # ── Display Manager: SDDM ─────────────────────────────────────────────────
   services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-    # No custom theme — use SDDM's built-in default (works without extra packages)
+    enable = false;
   };
 
   # ── XDG Portals ───────────────────────────────────────────────────────────
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk  # GTK file pickers, screenshots, etc.
+      xdg-desktop-portal-gtk # GTK file pickers, screenshots, etc.
     ];
     config.common.default = "gtk";
   };
@@ -40,15 +69,21 @@
 
   # ── System Packages ───────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
+    xwayland-satellite
     # icon set (kept from GNOME config)
     inputs.yamis.packages.${pkgs.system}.default
 
     # wallpaper
     waywallen
+    waywallen-layer-shell
     swaybg
 
+    # update script
+    nixos-rebuild-specialisation
+    nixos-rebuild-polkit
+
     # launcher (rofi-wayland merged into rofi in nixpkgs-unstable)
-    rofi
+    hamr
 
     # notifications
     mako

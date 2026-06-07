@@ -1,10 +1,13 @@
-{ inputs, config, pkgs, ... }:
-let
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}: let
   data = config.xdg.dataHome;
   conf = config.xdg.configHome;
   cache = config.xdg.cacheHome;
-in
-{
+in {
   imports = [
     ./emulators/kitty.nix
     ./programs
@@ -13,12 +16,10 @@ in
     #./shell/zoxide.nix
   ];
 
-  home.packages = with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [ 
-    pkgs.alejandra 
-    pkgs.nixd 
-    pi
+  home.packages = with pkgs; [
+    alejandra
+    nixd
   ];
-
 
   # add environment variables
   home.sessionVariables = {

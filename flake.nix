@@ -17,6 +17,7 @@
     };
 
   inputs = {
+    hamr.url = "github:stewart86/hamr";
     yamis.url = "github:gettbitgirl/Yet-Another-Monochrome-Icon-Set";
     nix-waywallen.url = "github:gettbitgirl/nix-waywallen";
     antigravity-nix = {

@@ -1,4 +1,15 @@
-{ ... }: {
+{
+  pkgs,
+  lib,
+  ...
+}: let
+  nixos-rebuild-specialisation-exec = pkgs.writeShellScriptBin "nixos-rebuild-specialisation-exec" ''
+    pkexec --user dev nixos-rebuild-specialisation
+  '';
+in {
+  home.packages = [
+    nixos-rebuild-specialisation-exec
+  ];
   # Write niri's config as a KDL file.
   # Niri reads from $XDG_CONFIG_HOME/niri/config.kdl
   xdg.configFile."niri/config.kdl".text = ''
@@ -48,6 +59,8 @@
       gaps 10
       center-focused-column "never"
 
+      background-color "transparent"
+
       preset-column-widths {
         proportion 0.3333
         proportion 0.5000
@@ -73,10 +86,7 @@
     }
 
     // ── Window rules ──────────────────────────────────────────────────────
-    window-rule {
-      match is-dialog=true
-      open-floating true
-    }
+    // (Note: niri opens dialogs/transient windows floating by default)
 
     window-rule {
       match app-id=r#"^org\.pulseaudio\.pavucontrol$"#
@@ -90,20 +100,56 @@
       default-column-width { fixed 900; }
     }
 
+    window-rule {
+      match app-id=r#"^kitty-quick-access$"#
+      open-floating true
+      default-column-width { fixed 1000; }
+      default-window-height { fixed 600; }
+    }
+
+    window-rule {
+      match app-id=r#"^nixos-rebuild$"#
+      open-floating true
+      default-column-width { fixed 1000; }
+      default-window-height { fixed 600; }
+    }
+
+    layer-rule {
+      match namespace=r#"^waywallen-wallpaper$"#
+      place-within-backdrop true
+    }
+
+    layer-rule {
+      match namespace=r#"^hamr$"#
+      background-effect {
+        blur true
+        xray false
+      }
+    }
+
+    blur {
+      passes 3
+      offset 3.0
+      saturation 1.5
+    }
+
     // ── Startup ───────────────────────────────────────────────────────────
     spawn-at-startup "waybar"
     spawn-at-startup "mako"
+    spawn-at-startup "hamr"
+    //spawn-at-startup "xwayland-satellite"
     spawn-at-startup "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1"
     spawn-at-startup "sh" "-c" "wl-paste --watch cliphist store"
-    spawn-at-startup "sh" "-c" "waywallen set || swaybg -c 1e1e2e"
+    spawn-at-startup "waywallen-layer-shell"
+    spawn-at-startup "waywallen --no-ui"
     spawn-at-startup "sh" "-c" "swayidle -w timeout 300 'swaylock -f' timeout 600 'niri msg action power-off-monitors' before-sleep 'swaylock -f'"
 
     // ── Keybindings (Mod = Super) ─────────────────────────────────────────
     binds {
       // ── Applications ──
       Mod+Return { spawn "kitty"; }
-      Mod+Space { spawn "rofi" "-show" "drun"; }
-      Mod+Shift+Space { spawn "rofi" "-show" "run"; }
+      Mod+Space { spawn "hamr" "toggle"; }
+      Mod+V { spawn "hamr" "plugin" "clipboard"; }
       Mod+E { spawn "nautilus"; }
       Mod+Shift+P { spawn "pavucontrol"; }
 
@@ -112,12 +158,20 @@
       Mod+Print { screenshot-screen; }
       Mod+Shift+Print { screenshot-window; }
 
+      // ── Help & System Rebuild ──
+      Mod+Shift+Slash { show-hotkey-overlay; }
+      Mod+Shift+B hotkey-overlay-title="Rebuild NixOS" { spawn "kitty" "--class" "nixos-rebuild" "-e" "nixos-rebuild-specialisation"; }
+
+      // ── Overview & Quick Access ──
+
+      F12 hotkey-overlay-title="Quick Access Terminal" { spawn "kitten" "quick-access-terminal"; }
+
       // ── Window Management ──
       Mod+Q { close-window; }
       Mod+F { maximize-column; }
       Mod+Shift+F { fullscreen-window; }
       Mod+C { center-column; }
-      Mod+V { toggle-window-floating; }
+      Mod+B { toggle-window-floating; }
 
       // ── Focus: vi-style ──
       Mod+H { focus-column-left; }
@@ -192,4 +246,20 @@
       XF86AudioPrev { spawn "playerctl" "previous"; }
     }
   '';
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
+
+  gtk = {
+    enable = true;
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
 }

@@ -23,7 +23,7 @@
           #"${mod}/core/lanzaboote.nix"
 
           "${mod}/programs/gamemode.nix"
-          "${mod}/programs/gnome"
+          "${mod}/programs/niri"
           "${mod}/programs/games.nix"
 
           #"${mod}/network/syncthing.nix"
@@ -43,11 +43,11 @@
           # ── Niri specialization ──────────────────────────────────────────
           # Select at boot via the "niri" bootloader entry.
           # The niri module itself disables GNOME/GDM with mkForce.
-          {
-            specialisation.niri.configuration = {
-              imports = [ "${mod}/programs/niri" ];
-            };
-          }
+          #{
+            #specialisation.niri.configuration = {
+              #imports = [ "${mod}/programs/niri" ];
+            #};
+          #}
         ];
       };
     };

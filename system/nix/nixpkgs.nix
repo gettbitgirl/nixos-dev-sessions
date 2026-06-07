@@ -1,5 +1,8 @@
-{ self, inputs, ... }:
 {
+  self,
+  inputs,
+  ...
+}: {
   nixpkgs = {
     config.allowUnfree = true;
     config.permittedInsecurePackages = [
@@ -8,6 +11,9 @@
 
     overlays = [
       inputs.nix-waywallen.overlays.default
+      (final: prev: {
+        hamr = inputs.hamr.packages.${prev.system}.default;
+      })
     ];
   };
 }
