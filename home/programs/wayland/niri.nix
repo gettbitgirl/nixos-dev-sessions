@@ -7,8 +7,6 @@
     # icon set (kept from GNOME config)
     inputs.yamis.packages.${pkgs.system}.default
 
-
-
     # wallpaper
 
     swaybg
@@ -38,23 +36,24 @@
     # audio mixer GUI
     pavucontrol
 
-    # file manager
-    nautilus
+    # steam
+    steamcmd
   ];
 
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
+  services.linux-wallpaperengine = {
+    enable = true;
+    assetsPath = "/home/dev/.local/share/Steam/steamapps/common/wallpaper_engine/assets";
   };
 
   gtk = {
     enable = true;
     gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
+      gtk-application-prefer-dark-theme = 0;
     };
     gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
+      gtk-application-prefer-dark-theme = 0;
     };
   };
+
+  stylix.targets.noctalia-shell.enable = true;
 }

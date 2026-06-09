@@ -3,15 +3,15 @@
   pkgs,
   ...
 }: let
-  skwd-patched = inputs.skwd.packages.${pkgs.system}.default.overrideAttrs (oldAttrs: {
-    preFixup =
-      (oldAttrs.preFixup or "")
-      + ''
-        mkdir -p $out/share/skwd
-        cp -a ${inputs.skwd.inputs.skwd-daemon.packages.${pkgs.system}.default}/share/skwd/skwd-daemon $out/share/skwd/
-        cp ${./AppCacheService.qml} $out/share/skwd/skwd-launch/qml/services/AppCacheService.qml
-      '';
-  });
+  #skwd-patched = inputs.skwd.packages.${pkgs.system}.default.overrideAttrs (oldAttrs: {
+  #  preFixup =
+  #    (oldAttrs.preFixup or "")
+  #    + ''
+  #      mkdir -p $out/share/skwd
+  #      cp -a ${inputs.skwd.inputs.skwd-daemon.packages.${pkgs.system}.default}/share/skwd/skwd-daemon $out/share/skwd/
+  #      cp ${./AppCacheService.qml} $out/share/skwd/skwd-launch/qml/services/AppCacheService.qml
+  #    '';
+  #});
 in {
   imports = [
     inputs.skwd-wall.nixosModules.default
@@ -19,12 +19,14 @@ in {
   #inputs.skwd-wall.packages.${pkgs.system}.default
   programs.skwd-wall.enable = true;
 
-  environment.sessionVariables = {
-    SKWD_INSTALL = "${skwd-patched}/share/skwd";
-  };
+  #environment.sessionVariables = {
+  #  SKWD_INSTALL = "${skwd-patched}/share/skwd";
+  #};
 
   # ── Compositor ────────────────────────────────────────────────────────────
   programs.niri.enable = true;
+
+  environment.etc."xdg/menus/applications.menu".source = ./dolphin.menu;
 
   # ── Display Manager: SDDM ─────────────────────────────────────────────────
   services.displayManager.sddm = {
@@ -42,10 +44,10 @@ in {
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk # GTK file pickers, screenshots, etc.
+      kdePackages.xdg-desktop-portal-kde
     ];
-    config.common.default = "gtk";
+    config.common.default = "kde";
   };
-
   # ── Security / Auth ───────────────────────────────────────────────────────
   security.polkit.enable = true;
 
@@ -58,11 +60,22 @@ in {
 
   # ── System Packages ───────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
-    skwd-patched
+    # file manager
+    kdePackages.dolphin
+    kdePackages.systemsettings
+    ffmpegthumbnailer
+    kdePackages.ffmpegthumbs
+    kdePackages.plasma-workspace
+    kdePackages.kservice
+
+    #skwd-patched
+    noctalia-shell
     xwayland-satellite
     cava
 
     #shell
+    waywallen
+    waywallen-layer-shell
 
     # polkit authentication agent (GTK)
     polkit_gnome

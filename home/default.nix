@@ -2,6 +2,7 @@
   self,
   inputs,
   pkgs,
+  config,
   ...
 }:
 {
@@ -18,6 +19,7 @@
     homeDirectory = "/home/dev";
     stateVersion = "26.05";
 
+    file."Pictures/Wallpapers/default.jpg".source = config.theme.wallpaper;
   };
 
   # disable manuals as nmd fails to build often

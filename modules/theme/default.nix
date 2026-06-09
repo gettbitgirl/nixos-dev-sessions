@@ -1,6 +1,4 @@
-{ lib, ... }:
-{
-  
+{lib, ...}: {
   options.theme = {
     name = lib.mkOption {
       description = ''
@@ -12,7 +10,7 @@
       '';
       type = lib.types.str;
       example = lib.literalExample "catppuccin-latte";
-      default = "tarot";
+      default = "sakura";
     };
 
     wallpaper = lib.mkOption {

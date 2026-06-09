@@ -148,16 +148,22 @@ QtObject {
             '  local sizes="512x512 256x256 128x128 96x96 64x64 48x48 scalable"\n' +
             '  for d in $dirs; do\n' +
             '    [ -d "$d" ] || continue\n' +
-            '    for s in $sizes; do\n' +
-            '      for cat in apps applications; do\n' +
-            '        for ext in .png .svg .xpm; do\n' +
-            '          [ -f "$d/$s/$cat/${name}${ext}" ] && echo "$d/$s/$cat/${name}${ext}" && return\n' +
+            '    if [ "${d##*/}" = "icons" ]; then\n' +
+            '      for theme in "$d"/*; do\n' +
+            '        [ -d "$theme" ] || continue\n' +
+            '        for s in $sizes; do\n' +
+            '          for cat in apps applications; do\n' +
+            '            for ext in .png .svg .xpm; do\n' +
+            '              [ -f "$theme/$s/$cat/${name}${ext}" ] && echo "$theme/$s/$cat/${name}${ext}" && return\n' +
+            '            done\n' +
+            '          done\n' +
             '        done\n' +
             '      done\n' +
-            '    done\n' +
-            '    for ext in .png .svg .xpm ""; do\n' +
-            '      [ -f "$d/${name}${ext}" ] && echo "$d/${name}${ext}" && return\n' +
-            '    done\n' +
+            '    else\n' +
+            '      for ext in .png .svg .xpm ""; do\n' +
+            '        [ -f "$d/${name}${ext}" ] && echo "$d/${name}${ext}" && return\n' +
+            '      done\n' +
+            '    fi\n' +
             '  done\n' +
             '}\n' +
 
@@ -198,9 +204,9 @@ QtObject {
             '}\n' +
 
             'seen_names=""\n' +
-            'local old_ifs="$IFS"\n' +
+            'old_ifs="$IFS"\n' +
             'IFS=":"\n' +
-            'local app_dirs=""\n' +
+            'app_dirs=""\n' +
             'for d in $xdg_dirs_str; do\n' +
             '  [ -d "$d/applications" ] && app_dirs="$app_dirs $d/applications"\n' +
             'done\n' +

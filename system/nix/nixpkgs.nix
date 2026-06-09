@@ -12,6 +12,7 @@
     overlays = [
       inputs.nix-waywallen.overlays.default
       inputs.nirimod.overlays.default
+      #inputs.dolphin-overlay.overlays.default
     ];
   };
 }
